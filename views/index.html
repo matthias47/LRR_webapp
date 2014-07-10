@@ -1,0 +1,87 @@
+
+<title>LodeRunnerReloaded</title>
+    <script src="lib/jquery.js"></script>
+    <script src="lib/crafty.js"></script>
+    <script src="lib/sorttable.js"></script>
+    <script  src="src/game.js"></script>
+    <script src="src/components.js"></script>
+    <script src="src/scenes.js"></script>
+    <script src="src/movement.js"></script>
+    <script src="src/blockdetection.js"></script>
+
+
+
+    <div id="cr-stage"></div>
+    <script> window.addEventListener('load', Game.start);</script>
+
+    <form action="/rateLevel" id="button" method="POST">
+    <button>Like this Level!</button></form>
+    
+    <form name="input" action="/setplayer" id="userform" method="POST">
+    Set your name: <input type="text" name="name"><button>HIT!</button></form>
+
+
+
+    <script>
+
+      var levelname;
+
+      if(document.cookie == ""){
+      $('#showname').hide();  
+      }
+      if(document.cookie != ""){      //when cookie is set hide form 
+      $('#userform').hide();
+      }
+
+      function printScore(highscores){
+    
+      var output="<h4>Best Times </h4><ol>";
+      for (var i in highscores.highscores) {
+          output+="<li> Player:<b>" + highscores.highscores[i].playerID + "</b> Best Time:<b>" + highscores.highscores[i].time +"</b></li>";
+      }
+
+      output+="</ol>";
+      document.getElementById("list").innerHTML=output;
+      //document.getElementById("levelname").innerHTML="<b>Level: </b>" + highscores.highscores[i].levelname; //heading levelname is the same in every index
+      
+
+    }
+    $("#userform").submit(function(event) {
+
+     event.preventDefault();
+     
+      $.ajax({
+             type: "POST",
+             url: "/setPlayer",
+             data: $("#userform").serialize(), // serializes the form's elements.
+             success: function(name)
+             {
+                $('#userform').hide();
+                document.getElementById("playername").innerHTML="<b>Player: </b>" + name.name;
+             }
+           });    
+      //return false; // avoid to execute the actual submit.
+    });
+
+    $("#button").submit(function(event){
+
+     event.preventDefault();
+
+
+      $.post("/rateLevel", {levelname: levelname})
+        .done(function(data){
+        document.getElementById("thanks").innerHTML=data;
+        $('#button').hide();
+        });
+    });
+      
+    </script>
+    
+    <p id="thanks"></p> 
+    <h4 id="leveldescription"></h4>
+    <h4 id ="playername"></h4>
+    <h4 id="showname">Player: {{playername}}</h4>
+    <div id="list"></div>
+
+  
+      

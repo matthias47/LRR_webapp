@@ -1,0 +1,48 @@
+<title>Highscore</title>
+  </head>
+  <body>
+
+<h1>Best Player for each Level</h1>
+
+    <script src="lib/jquery.js"></script>
+
+
+  <script>
+
+    $.post("/getOverallBesttimes", printTime);
+    
+    function printTime(dblevel) {
+
+      console.log(dblevel);
+
+      var output="<ul>";
+
+      for (var i in dblevel.dblevel) {
+        
+        
+          output+="<li> Level: <b>" + dblevel.dblevel[i].levelname + "</b> Player: <b>" + dblevel.dblevel[i].bestrun.player + "</b> Time: <b> " + dblevel.dblevel[i].bestrun.time + "</b></li>";
+      }
+
+      output+="</ul>"; 
+
+          document.getElementById("list").innerHTML=output;
+      }
+
+      /*
+      var output="<table>";
+
+      for (var i in dblevel.dblevel) {
+        
+        
+          output+="  <th>" + dblevel.dblevel[i].levelname + "</th><th>" + dblevel.dblevel[i].bestrun.player + "<th></th>" + dblevel.dblevel[i].bestrun.time + "</th>";
+      }
+
+      output+="<table>";
+
+    document.getElementById("list").innerHTML=output;
+    }
+        */
+  </script>
+
+  <h4> </h4>
+  <div id="list"></div>

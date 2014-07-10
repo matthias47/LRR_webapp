@@ -1,0 +1,34 @@
+<title>Level Ranking</title>
+  </head>
+  <body>
+
+<h1>Level Ranking</h1>
+
+    <script src="lib/jquery.js"></script>
+
+
+  <script>
+
+    $.get("/getLevelRanking", printLevel);
+
+    function printLevel(dblevel) {
+
+      var output="<ol>";
+
+      for (var i in dblevel.dblevel) {
+        
+          /*output+="<li> created by: <b>" + dblevel.dblevel[i].createdBy + "</b> Likes: <b>" + dblevel.dblevel[i].rating + "</b> Level: <b> <a href='playLevel" + dblevel.dblevel[i].levelname + "'>" + dblevel.dblevel[i].levelname +"</a></b></li>";  */
+
+          output+="<li> Level: <b> <a href='playLevel" + dblevel.dblevel[i].levelname + "'>" + dblevel.dblevel[i].levelname +"</a></b> created by: <b>" + dblevel.dblevel[i].createdBy + "</b> Likes: <b>" + dblevel.dblevel[i].rating + "</b> </li>"; 
+      }
+
+      output+="</ol>";
+      //console.log(output);
+
+    document.getElementById("list").innerHTML=output;
+    }
+
+  </script>
+
+  <h4> </h4>
+  <div id="list"></div>

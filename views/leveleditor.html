@@ -1,0 +1,33 @@
+<title>Leveleditor</title>
+  </head>
+  <body>
+    <script src="lib/jquery.js"></script>
+
+	<form name="input" action="/saveLevel" id="levelform" method="POST"> 
+    Levelname<input type="text" name="name">
+    <button>Save it!</button>         
+    </form>
+
+	<script>
+
+	   $("#levelform").submit(function(event) {
+	   
+	   event.preventDefault();
+	   
+	    $.ajax({
+	           type: "POST",
+	           url: "/saveLevel",
+	           data: $("#levelform").serialize(), // serializes the form's elements.
+	           success: function(data)
+	           {
+		          	$('#levelform').hide();	
+		            $("#response").html(data);
+	           }
+	         });
+	    
+	    //return false; // avoid to execute the actual submit.
+	    });
+
+	    </script> 
+	    
+	    <div id="response"></div>
