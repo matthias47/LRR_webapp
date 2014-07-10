@@ -169,10 +169,6 @@ Crafty.scene('Game', function() {
                     Crafty.e('Torch_BG').at(x+1, y+1);
                 }*/
 
-                /*if(map_bg[y][x] == ['0'] && map_transparent_bg[y][x] == ['0']){*/
-                
-                if (map_bg != null || map_transparent_bg != null) { 
-
                   if (map_bg[y][x] == 'q'){
                       var tmp_bg = Crafty.e('BG').at(x+1, y+1);
                       tmp_bg.sprite(0,0);
@@ -373,8 +369,7 @@ Crafty.scene('Game', function() {
                   if (map_transparent_bg[y][x] == 'C'){
                       var tmp_bg = Crafty.e('BG_Front').at(x+1, y+1);
                       tmp_bg.sprite(6,5);
-                  }
-                }  
+                  }  
         } 
     }               
    
