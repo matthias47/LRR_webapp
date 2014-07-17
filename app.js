@@ -15,6 +15,7 @@ var express = require('express')
 
 
 var app = express();
+var levelEngine = require('./defaultbackground'); //returns default background for created Levels
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -85,13 +86,32 @@ app.get('/getLevel', function(req, res){
 
    Level.find({/*levelname: "Third", rating: 2*//*Math.floor((Math.random() * 4) + 1)*/}, function(err, dblevels){ //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten
         
-        dblevel = dblevels[Math.floor((Math.random() * 4) + 0)];  //workaround for random level
+        //dblevel = dblevels[Math.floor((Math.random() * 4) + 0)];  //workaround for random level
+        dblevel = dblevels[1];
+
+        console.log(dblevel.leveldata.levelbg);
+
+     if(dblevel.leveldata.levelbg == "undefined" || dblevel.leveldata.level_tr_bg == "undefined"){
+
+          dblevel.leveldata.levelbg = levelEngine.getBackground();   
+          dblevel.leveldata.level_tr_bg = levelEngine.getTransparent();
+     // console.log(levelEngine.getBackground());
+     //console.log(dblevel);
 
       Rating.findOne({playerID: req.headers.cookie, levelname: dblevel.levelname}, function(err, rating){   //if player has already rated, do not display rating button
 
         res.send({dblevel: dblevel, rating: rating})
 
       });
+    }
+    else{
+      console.log("works");
+      Rating.findOne({playerID: req.headers.cookie, levelname: dblevel.levelname}, function(err, rating){   //if player has already rated, do not display rating button
+
+        res.send({dblevel: dblevel, rating: rating})
+
+      });
+    }
   }); 
 });
 
@@ -219,17 +239,19 @@ app.post('/setPlayer', function(req, res){
 app.post('/saveLevel', function(req, res){
   Player.findOne({cookieID: req.headers.cookie}, function(err, player){
 
-    console.log(player.name);
-
-    console.log(req.data.name);
+    console.log(req.body.levelname);
+     console.log(req.body.leveldata);
    
-    new Level({    
+   
+      new Level({    
 
-      levelname: req.body.name,
+      levelname: req.body.levelname,
       createdBy: player.name, 
       rating: 0,
       leveldata: {
-         // levelmap: req.body.data[1],
+          levelmap: req.body.leveldata,
+          levelbg: "undefined",
+          level_tr_bg: "undefined",
       },
       bestrun: {
         player: "---",
@@ -239,7 +261,7 @@ app.post('/saveLevel', function(req, res){
     }).save(function(err, docs){
       if(err) res.json(err);
        res.send('<a href="/">Done! Wanna play it?</a>');  // am besten link zur home mit dem level
-    })
+    })  
   });
 
 
@@ -255,7 +277,7 @@ app.get('/', function(req, res){
   if(req.headers.cookie != undefined){    //if cookie is set, return homepage and name of player
     Player.findOne({cookieID: req.headers.cookie}, function(err, players){ 
 
-      Level.findOne({rating: 14}, function(err, dblevel){ 
+      Level.findOne({rating: 4}, function(err, dblevel){ 
         //console.log(dblevel);
 
           //res.send({dblevel: dblevel});

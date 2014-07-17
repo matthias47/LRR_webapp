@@ -21,8 +21,8 @@ var map_comp = [
     '................................',
     '................................',
     '................................',
-    '', // nicht entfernen!
-    ''   // nicht entfernen!   
+    '.', // nicht entfernen!
+    '.'   // nicht entfernen!   
 ];
 
 //var map_comp = new Array();

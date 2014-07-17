@@ -16,38 +16,30 @@
 
 
 	<form name="input" action="/saveLevel" id="levelform" method="POST"> 
-    Levelname<input type="text" name="name">
+    Levelname<input type="text" name="name" id="name">
     <button>Save it!</button>         
     </form>
 
 	<script>
 
-	/*	var data = {};
-	   data[0] = $("#levelform").serialize();
-	   data[1] = map_comp;	*/
-
 	   $("#levelform").submit(function(event) {
 	   
 	   event.preventDefault();
-
-	   console.log(data);
-	   
+   
 	    $.ajax({
 	           type: "POST",
 	           url: "/saveLevel",
-	           data: data:
-           				{	
-       					name:  $("#levelform").submit(function(event),
-       					leveldata: map_comp
-           				}
+	           data:
+       				{	      					
+   					leveldata: map_comp,
+   					levelname: $("#name").val()
+       				},	
 	           success: function(data)
 	           {
 		          	$('#levelform').hide();	
 		            $("#response").html(data);
 	           }
 	         });
-	    
-	    //return false; // avoid to execute the actual submit.
 	    });
 
 	    </script> 
