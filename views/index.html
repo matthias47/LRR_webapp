@@ -20,14 +20,17 @@
     <form name="input" action="/setplayer" id="userform" method="POST">
     Set your name: <input type="text" name="name"><button>HIT!</button></form>
 
-
+    <h4 id="showname"> Player: {{playername}} </h4>
 
     <script>
 
       var levelname;
+      var cookie = document.cookie;
+      
 
-      if(document.cookie == ""){
-      $('#showname').hide();  
+ 
+      if(cookie == ""){
+      $("#showname").hide();  
       }
       if(document.cookie != ""){      //when cookie is set hide form 
       $('#userform').hide();
@@ -74,13 +77,11 @@
         $('#button').hide();
         });
     });
-      
     </script>
     
     <p id="thanks"></p> 
     <h4 id="leveldescription"></h4>
-    <h4 id ="playername"></h4>
-    <h4 id="showname">Player: {{playername}}</h4>
+    <h4 id="playername"></h4>
     <div id="list"></div>
 
   

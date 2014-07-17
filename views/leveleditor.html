@@ -2,6 +2,18 @@
   </head>
   <body>
     <script src="lib/jquery.js"></script>
+    <script src="lib/jquery.js"></script>
+	<script src="lib/crafty.js"></script>
+	<script src="src/game_editor.js"></script>
+	<script src="src/components_editor.js"></script>
+	<script src="src/scenes_editor.js"></script>
+
+	<div id="cr-stage"></div>
+	<script>
+	window.addEventListener('load', Game.start);
+	</script>
+  
+
 
 	<form name="input" action="/saveLevel" id="levelform" method="POST"> 
     Levelname<input type="text" name="name">
@@ -10,14 +22,24 @@
 
 	<script>
 
+	/*	var data = {};
+	   data[0] = $("#levelform").serialize();
+	   data[1] = map_comp;	*/
+
 	   $("#levelform").submit(function(event) {
 	   
 	   event.preventDefault();
+
+	   console.log(data);
 	   
 	    $.ajax({
 	           type: "POST",
 	           url: "/saveLevel",
-	           data: $("#levelform").serialize(), // serializes the form's elements.
+	           data: data:
+           				{	
+       					name:  $("#levelform").submit(function(event),
+       					leveldata: map_comp
+           				}
 	           success: function(data)
 	           {
 		          	$('#levelform').hide();	

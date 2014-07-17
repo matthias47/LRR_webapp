@@ -220,12 +220,17 @@ app.post('/saveLevel', function(req, res){
   Player.findOne({cookieID: req.headers.cookie}, function(err, player){
 
     console.log(player.name);
+
+    console.log(req.data.name);
    
     new Level({    
 
       levelname: req.body.name,
       createdBy: player.name, 
       rating: 0,
+      leveldata: {
+         // levelmap: req.body.data[1],
+      },
       bestrun: {
         player: "---",
         time: undefined,
@@ -239,7 +244,7 @@ app.post('/saveLevel', function(req, res){
 
 
 });
-//-------------------------NORMAL-ROUTING-----------------------------------------------
+//---------------------------------------------------------------------------------------
 
 app.get('/highscore', function(req, res){ 
             res.render('highscore', {title: 'Number One Players'}) 
