@@ -44,7 +44,7 @@
       }
 
       output+="</ol>";
-      document.getElementById("list").innerHTML=output;
+      document.getElementById("bestlist").innerHTML=output;
       //document.getElementById("levelname").innerHTML="<b>Level: </b>" + highscores.highscores[i].levelname; //heading levelname is the same in every index
       
 
@@ -77,12 +77,29 @@
         $('#button').hide();
         });
     });
+    $.get("/getLevellisting", printLevellisting);
+
+    function printLevellisting(dblevels){
+
+      var output="<h4>Choose a Level </h4><ul>";
+
+      for (var i in dblevels.dblevels) {
+          output+="<li> Level: <b>" + dblevels.dblevels[i].levelname + "</b> Likes: <b>" + dblevels.dblevels[i].rating +"</b></li>";
+      }
+
+      output+="</ul>";
+      document.getElementById("levellist").innerHTML=output;
+
+
+    }
+
     </script>
     
     <p id="thanks"></p> 
     <h4 id="leveldescription"></h4>
     <h4 id="playername"></h4>
-    <div id="list"></div>
+    <div id="bestlist"></div>    
+    <div id="levellist"></div>
 
   
       

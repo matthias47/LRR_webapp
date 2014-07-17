@@ -42,6 +42,25 @@
 	         });
 	    });
 
+	$.get("/getCreatedLevel", printCreatedLevel);
+
+    function printCreatedLevel(dblevels) {
+
+        var output="<ol>";
+
+		var output="<h4>Your Level </h4><ul>";
+
+	    for (var i in dblevels.dblevels) {
+	        
+      		output+="<li> Level: <b>" + dblevels.dblevels[i].levelname + "</b> Likes: <b>" + dblevels.dblevels[i].rating +"</b></li>";
+
+		}
+	    output+="</ol>";
+	  	
+		document.getElementById("createdLevelList").innerHTML=output;
+	}
+
 	    </script> 
 	    
 	    <div id="response"></div>
+	   	<div id="createdLevelList"></div>

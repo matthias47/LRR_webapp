@@ -89,14 +89,12 @@ app.get('/getLevel', function(req, res){
         //dblevel = dblevels[Math.floor((Math.random() * 4) + 0)];  //workaround for random level
         dblevel = dblevels[1];
 
-        console.log(dblevel.leveldata.levelbg);
 
      if(dblevel.leveldata.levelbg == "undefined" || dblevel.leveldata.level_tr_bg == "undefined"){
 
           dblevel.leveldata.levelbg = levelEngine.getBackground();   
           dblevel.leveldata.level_tr_bg = levelEngine.getTransparent();
-     // console.log(levelEngine.getBackground());
-     //console.log(dblevel);
+
 
       Rating.findOne({playerID: req.headers.cookie, levelname: dblevel.levelname}, function(err, rating){   //if player has already rated, do not display rating button
 
@@ -105,13 +103,34 @@ app.get('/getLevel', function(req, res){
       });
     }
     else{
-      console.log("works");
+      console.log("No need to load default background");
       Rating.findOne({playerID: req.headers.cookie, levelname: dblevel.levelname}, function(err, rating){   //if player has already rated, do not display rating button
 
         res.send({dblevel: dblevel, rating: rating})
 
       });
     }
+  }); 
+});
+
+app.get('/getLevelListing', function(req, res){  //get list of all levels and ther rating
+
+   Level.find({})
+     .limit(5)
+     .sort('-rating').exec(function(err, dblevels){
+      res.send({dblevels: dblevels})
+
+  }); 
+});
+
+app.get('/getCreatedLevel', function(req, res){  //get list of all levels and ther rating
+
+  Player.findOne({cookieID: req.headers.cookie}, function(err, player){
+
+   Level.find({createdBy: player.name})
+     .sort('-rating').exec(function(err, dblevels){
+      res.send({dblevels: dblevels})
+    });
   }); 
 });
 
@@ -239,10 +258,9 @@ app.post('/setPlayer', function(req, res){
 app.post('/saveLevel', function(req, res){
   Player.findOne({cookieID: req.headers.cookie}, function(err, player){
 
-    console.log(req.body.levelname);
-     console.log(req.body.leveldata);
-   
-   
+   // console.log(req.body.levelname);
+  //  console.log(req.body.leveldata);
+    
       new Level({    
 
       levelname: req.body.levelname,
