@@ -20,7 +20,7 @@
       for (var i in dblevel.dblevel) {
         
         
-          output+="<li> Level: <b>" + dblevel.dblevel[i].levelname + "</b> Player: <b>" + dblevel.dblevel[i].bestrun.player + "</b> Time: <b> " + dblevel.dblevel[i].bestrun.time + "</b></li>";
+          output+="<li> Level: <b> <a href='/play" + dblevel.dblevel[i]._id + "'" + dblevel.dblevel[i].levelname + ">" + dblevel.dblevel[i].levelname +"</a></b> Player: <b>" + dblevel.dblevel[i].bestrun.player + "</b> Time: <b> " + dblevel.dblevel[i].bestrun.time + "</b></li>";
       }
 
       output+="</ul>"; 

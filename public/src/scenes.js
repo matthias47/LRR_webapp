@@ -469,14 +469,34 @@ this.unbind('KeyDown', this.restart_game);
 //-----------------------------------------------------------------------------------------------------
 Crafty.scene('Loading', function(){
 
+  var pathname = window.location.pathname;
+  
+ 
 
-  $.ajax({        //ajax request for leveldata
-    dataType: "json",
-    url: "/getLevel",
-    data: "dblevel",
-    success: levelLoaded,
-    context: this
-  });   
+  if(pathname == "/"){
+
+    $.ajax({        //ajax request for leveldata
+      dataType: "json",
+      url: "/getLevel",
+      data: "dblevel",
+      success: levelLoaded,
+      context: this
+    });   
+  } 
+ else{
+
+    $.ajax({        //ajax request for leveldata
+      type: "POST",
+      dataType: "json",
+      url: "/getSpecificLevel",
+      data:
+            {
+              levelID: pathname
+            },
+      success: levelLoaded,
+      context: this
+    });  
+  } 
 
   Crafty.load(['assets/Stein_oK_72ppi.png', 'assets/Ladder.png', 'assets/Schatz_24x19_72ppi.png', 'assets/Pole.png', 'assets/playersprite.png', 
       'assets/enemysprite.png',  'assets/bg.png', 'assets/steine.png' ], function(){

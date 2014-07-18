@@ -19,6 +19,9 @@
     Levelname<input type="text" name="name" id="name">
     <button>Save it!</button>         
     </form>
+    
+    <div id="response"></div>
+   	<div id="createdLevelList"></div>
 
 	<script>
 
@@ -41,26 +44,42 @@
 	           }
 	         });
 	    });
+ 	var level_edit = null;
 
-	$.get("/getCreatedLevel", printCreatedLevel);
+   	$.ajax({
+      async: false,
+      type: "GET",
+      url: "/getCreatedLevel",
+      dataType: "json",
+      success : function(dblevels) { level_edit = dblevels; }
+	});
 
-    function printCreatedLevel(dblevels) {
+	output="<h4>Your Level </h4><ul>";
 
-        var output="<ol>";
+    for (var i in level_edit.dblevels) {
+        
+  		output+="<li> Level: <b>" + level_edit.dblevels[i].levelname + "</b> Likes: <b>" + level_edit.dblevels[i].rating +"</b> <a id='load' onclick='editLevel()'> Edit </a></li>";
 
-		var output="<h4>Your Level </h4><ul>";
+  		function editLevel(){
 
-	    for (var i in dblevels.dblevels) {
-	        
-      		output+="<li> Level: <b>" + dblevels.dblevels[i].levelname + "</b> Likes: <b>" + dblevels.dblevels[i].rating +"</b></li>";
+		alert(level_edit.dblevels[i].levelname);
 
-		}
-	    output+="</ol>";
-	  	
-		document.getElementById("createdLevelList").innerHTML=output;
+		console.log(level_edit.dblevels[i].levelname);
+		
+		} 
+
 	}
+	/*$('#load').live('click', function(){
 
-	    </script> 
-	    
-	    <div id="response"></div>
-	   	<div id="createdLevelList"></div>
+		alert(level_edit.dblevels[i].levelname);
+
+	}); */
+
+
+    output+="</ol>";
+
+	document.getElementById("createdLevelList").innerHTML=output;
+
+
+
+    </script> 

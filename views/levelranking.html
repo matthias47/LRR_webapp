@@ -19,7 +19,8 @@
         
           /*output+="<li> created by: <b>" + dblevel.dblevel[i].createdBy + "</b> Likes: <b>" + dblevel.dblevel[i].rating + "</b> Level: <b> <a href='playLevel" + dblevel.dblevel[i].levelname + "'>" + dblevel.dblevel[i].levelname +"</a></b></li>";  */
 
-          output+="<li> Level: <b> <a href='playLevel" + dblevel.dblevel[i].levelname + "'>" + dblevel.dblevel[i].levelname +"</a></b> created by: <b>" + dblevel.dblevel[i].createdBy + "</b> Likes: <b>" + dblevel.dblevel[i].rating + "</b> </li>"; 
+
+          output+="<li> Level: <b> <a href='/play" + dblevel.dblevel[i]._id + "'" + dblevel.dblevel[i].levelname + ">" + dblevel.dblevel[i].levelname +"</a></b> created by: <b>" + dblevel.dblevel[i].createdBy + "</b> Likes: <b>" + dblevel.dblevel[i].rating + "</b> </li>"; 
       }
 
       output+="</ol>";

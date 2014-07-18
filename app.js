@@ -87,10 +87,10 @@ app.get('/getLevel', function(req, res){
    Level.find({/*levelname: "Third", rating: 2*//*Math.floor((Math.random() * 4) + 1)*/}, function(err, dblevels){ //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten
         
         //dblevel = dblevels[Math.floor((Math.random() * 4) + 0)];  //workaround for random level
-        dblevel = dblevels[1];
+        dblevel = dblevels[3];
 
 
-     if(dblevel.leveldata.levelbg == "undefined" || dblevel.leveldata.level_tr_bg == "undefined"){
+     if(dblevel.leveldata.levelbg == "undefined" || dblevel.leveldata.level_tr_bg == "undefined"){ //if it is a level created by the editor load the default background
 
           dblevel.leveldata.levelbg = levelEngine.getBackground();   
           dblevel.leveldata.level_tr_bg = levelEngine.getTransparent();
@@ -113,7 +113,39 @@ app.get('/getLevel', function(req, res){
   }); 
 });
 
-app.get('/getLevelListing', function(req, res){  //get list of all levels and ther rating
+app.post('/getSpecificLevel', function(req, res){
+
+    console.log(req.body.levelID);
+    var level_ID = req.body.levelID;
+    var level_ID_edit = level_ID.replace("/play", "");    //delete the slash, so levelID matches the levelID in the database
+
+   Level.findOne({_id: level_ID_edit}, function(err, dblevel){ 
+        
+      
+     if(dblevel.leveldata.levelbg == "undefined" || dblevel.leveldata.level_tr_bg == "undefined"){  //if it is a level created by the editor load the default background
+
+          dblevel.leveldata.levelbg = levelEngine.getBackground();   
+          dblevel.leveldata.level_tr_bg = levelEngine.getTransparent();
+
+
+      Rating.findOne({playerID: req.headers.cookie, levelname: dblevel.levelname}, function(err, rating){   //if player has already rated, do not display rating button
+
+        res.send({dblevel: dblevel, rating: rating})
+
+      });
+    }
+    else{
+      console.log("No need to load default background");
+      Rating.findOne({playerID: req.headers.cookie, levelname: dblevel.levelname}, function(err, rating){   //if player has already rated, do not display rating button
+
+        res.send({dblevel: dblevel, rating: rating})
+
+      });
+    }
+  }); 
+});
+
+app.get('/getLevelListing', function(req, res){  //get list of all levels and ther rating - gets displayed on homeoage
 
    Level.find({})
      .limit(5)
@@ -178,7 +210,7 @@ app.post('/saveTime', function(req, res){
           if(err) res.json(err);
           });
 
-        console.log(dblevel); 
+       // console.log(dblevel); 
       });
     }
   });
@@ -316,16 +348,23 @@ app.get('/levelranking', function(req, res){
   });  
 });
 
-app.get('/playLevel:levelname', function(req, res){
+app.get('/play:levelname', function(req, res){
 
-     Level.findOne({levelname: req.params.levelname}, function(err, dblevel){  //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten
 
-          console.log(req.params.levelname);
-          console.log(dblevel);
-          //res.render('index', {title: 'Lode Runner Reloaded', dblevel: dblevel}) //passt noch nicht
-          res.send({dblevel: dblevel});
-          res.redirect('/')
-  });  
+  if(req.headers.cookie != undefined){    //if cookie is set, return homepage and name of player
+
+    Player.findOne({cookieID: req.headers.cookie}, function(err, players){
+
+         Level.findOne({levelname: req.params._id}, function(err, dblevel){  //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten        
+         // console.log(dblevel._id);
+          res.render('index', {title: 'Lode Runner Reloaded', levelID: dblevel._id,  playername: players.name}) //passt noch nicht
+          }); 
+    });
+  }
+  else{
+  res.render('index', {title: 'Lode Runner Reloaded', levelID: dblevel._id});  //normal homepage render without cookie
+  }
+ 
 });    
 
 app.get('/leveleditor', function(req, res){
@@ -339,3 +378,5 @@ app.get('/about', function(req, res){
 });
 
 app.listen(3000);
+
+
