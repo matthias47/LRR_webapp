@@ -139,6 +139,42 @@ Crafty.scene('Editor', function() {
 // Handles the loading of binary assets such as images and audio files
 Crafty.scene('Loading', function() {
 
+        var level_edit = null;
+
+    $.ajax({
+      async: false,
+      type: "GET",
+      url: "/getCreatedLevel",
+      dataType: "json",
+      success : function(dblevels) { level_edit = dblevels; }
+    });
+
+    output="<h4>Your Level </h4><ul>";
+
+    for (var i in level_edit.dblevels) {
+        
+        output+="<li> Level: <b>" + level_edit.dblevels[i].levelname + "</b> Likes: <b>" + level_edit.dblevels[i].rating +"</b> <a id='load' onclick='editLevel()'> Edit </a></li>";
+
+        function editLevel(){
+
+        alert(level_edit.dblevels[i].levelname);
+
+        console.log(level_edit.dblevels[i].levelname);
+        
+        } 
+
+    }
+    /*$('#load').live('click', function(){
+
+        alert(level_edit.dblevels[i].levelname);
+
+    }); */
+
+
+    output+="</ol>";
+
+    document.getElementById("createdLevelList").innerHTML=output;
+
     // Load our sprite map image
     Crafty.load(['assets/assets-yellow.png', 'assets/Gitter-03.png'], function() {
 

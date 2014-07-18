@@ -87,7 +87,7 @@ app.get('/getLevel', function(req, res){
    Level.find({/*levelname: "Third", rating: 2*//*Math.floor((Math.random() * 4) + 1)*/}, function(err, dblevels){ //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten
         
         //dblevel = dblevels[Math.floor((Math.random() * 4) + 0)];  //workaround for random level
-        dblevel = dblevels[3];
+        dblevel = dblevels[0];
 
 
      if(dblevel.leveldata.levelbg == "undefined" || dblevel.leveldata.level_tr_bg == "undefined"){ //if it is a level created by the editor load the default background
@@ -157,13 +157,19 @@ app.get('/getLevelListing', function(req, res){  //get list of all levels and th
 
 app.get('/getCreatedLevel', function(req, res){  //get list of all levels and ther rating
 
+  if(req.headers.cookie != undefined){
+
   Player.findOne({cookieID: req.headers.cookie}, function(err, player){
 
    Level.find({createdBy: player.name})
      .sort('-rating').exec(function(err, dblevels){
       res.send({dblevels: dblevels})
     });
-  }); 
+  });
+  }else{
+
+    res.send("No levels yet!");
+  } 
 });
 
 app.get('/getLevelRanking', function(req, res){  //get list of all levels and ther rating
@@ -310,8 +316,17 @@ app.post('/saveLevel', function(req, res){
 
     }).save(function(err, docs){
       if(err) res.json(err);
-       res.send('<a href="/">Done! Wanna play it?</a>');  // am besten link zur home mit dem level
-    })  
+     //  res.send('<a href="/">Done! Wanna play it?</a>');  // am besten link zur home mit dem level funzt ed
+    });
+    Level.findOne({levelname: req.body.levelname}, function(err, dblevel){
+
+      console.log(dblevel);
+      if(dblevel != null){
+
+      res.send('<a href="/play'+ dblevel._id + '">Done! Wanna play it?</a>'); 
+      }
+      else{ res.send("still processing")}
+    });  
   });
 
 
@@ -347,15 +362,14 @@ app.get('/levelranking', function(req, res){
           title: 'Level Ranking'         
   });  
 });
-
+/*
 app.get('/play:levelname', function(req, res){
-
 
   if(req.headers.cookie != undefined){    //if cookie is set, return homepage and name of player
 
     Player.findOne({cookieID: req.headers.cookie}, function(err, players){
 
-         Level.findOne({levelname: req.params._id}, function(err, dblevel){  //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten        
+         Level.findOne({_id: req.params._id}, function(err, dblevel){  //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten        
          // console.log(dblevel._id);
           res.render('index', {title: 'Lode Runner Reloaded', levelID: dblevel._id,  playername: players.name}) //passt noch nicht
           }); 
@@ -366,7 +380,22 @@ app.get('/play:levelname', function(req, res){
   }
  
 });    
+ */
+ app.get('/play:levelname', function(req, res){
 
+  if(req.headers.cookie != undefined){    //if cookie is set, return homepage and name of player
+
+    Player.findOne({cookieID: req.headers.cookie}, function(err, players){
+  //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten        
+         // console.log(dblevel._id);
+          res.render('index', {title: 'Lode Runner Reloaded',  playername: players.name}) //passt noch nicht
+    });
+  }
+  else{
+  res.render('index', {title: 'Lode Runner Reloaded'});  //normal homepage render without cookie
+  }
+ 
+}); 
 app.get('/leveleditor', function(req, res){
           res.render('leveleditor',  {
           title: 'Create your own Level!'         
