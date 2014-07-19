@@ -19,15 +19,14 @@
     <button>Like this Level!</button></form>
     
     <form name="input" action="/setplayer" id="userform" method="POST">
-    Set your name: <input type="text" name="name" class="required" title="Please type in your name"> <button>HIT!</button></form>
+    Set your name: <input name="name" type="text" class="required" title="Please type in your name"><button type="button">HIT!</button></form>
 
     <h4 id="showname"> Player: {{playername}} </h4>
 
     <script>
 
-      //var levelname;
-      var cookie = document.cookie;
 
+      var cookie = document.cookie;
  
       if(cookie == ""){
       $("#showname").hide();  
@@ -35,9 +34,9 @@
       if(document.cookie != ""){      //when cookie is set hide form 
       $('#userform').hide();
       }
-   /*  $(document).ready(function(){
-      $('#userform').validate();
-    }); */
+     $(document).ready(function(){
+      $("#userform").validate();
+    }); 
 
       function printScore(highscores){
     

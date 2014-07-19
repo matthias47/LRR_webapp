@@ -281,6 +281,11 @@ app.post('/setPlayer', function(req, res){
   var uuid4 = uuid.v4();
   res.cookie('', uuid4, {});
 
+  if(req.body.name == ""){
+
+    req.body.name = "unknown";
+  }
+
   new Player({    //save cookieID and playername
 
     name: req.body.name,
@@ -361,25 +366,7 @@ app.get('/levelranking', function(req, res){
           title: 'Level Ranking'         
   });  
 });
-/*
-app.get('/play:levelname', function(req, res){
 
-  if(req.headers.cookie != undefined){    //if cookie is set, return homepage and name of player
-
-    Player.findOne({cookieID: req.headers.cookie}, function(err, players){
-
-         Level.findOne({_id: req.params._id}, function(err, dblevel){  //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten        
-         // console.log(dblevel._id);
-          res.render('index', {title: 'Lode Runner Reloaded', levelID: dblevel._id,  playername: players.name}) //passt noch nicht
-          }); 
-    });
-  }
-  else{
-  res.render('index', {title: 'Lode Runner Reloaded', levelID: dblevel._id});  //normal homepage render without cookie
-  }
- 
-});    
- */
  app.get('/play:levelname', function(req, res){
 
   if(req.headers.cookie != undefined){    //if cookie is set, return homepage and name of player
