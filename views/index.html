@@ -1,6 +1,7 @@
 
 <title>LodeRunnerReloaded</title>
     <script src="lib/jquery.js"></script>
+    <script src="lib/jquery.validate.min.js"></script>
     <script src="lib/crafty.js"></script>
     <script src="lib/sorttable.js"></script>
     <script  src="src/game.js"></script>
@@ -14,17 +15,17 @@
     <div id="cr-stage"></div>
     <script> window.addEventListener('load', Game.start);</script>
 
-    <form action="/rateLevel" id="button" method="POST">
+    <form action="/rateLevel" id="ratebutton" method="POST">
     <button>Like this Level!</button></form>
     
     <form name="input" action="/setplayer" id="userform" method="POST">
-    Set your name: <input type="text" name="name"><button>HIT!</button></form>
+    Set your name: <input type="text" name="name" class="required" title="Please type in your name"> <button>HIT!</button></form>
 
     <h4 id="showname"> Player: {{playername}} </h4>
 
     <script>
 
-      var levelname;
+      //var levelname;
       var cookie = document.cookie;
 
  
@@ -34,7 +35,9 @@
       if(document.cookie != ""){      //when cookie is set hide form 
       $('#userform').hide();
       }
-     // $('#userform').validate();
+   /*  $(document).ready(function(){
+      $('#userform').validate();
+    }); */
 
       function printScore(highscores){
     
@@ -46,8 +49,7 @@
       output+="</ol>";
       document.getElementById("bestlist").innerHTML=output;
       //document.getElementById("levelname").innerHTML="<b>Level: </b>" + highscores.highscores[i].levelname; //heading levelname is the same in every index
-      
-
+    
     }
     $("#userform").submit(function(event) {
 
@@ -66,17 +68,18 @@
       //return false; // avoid to execute the actual submit.
     });
 
-    $("#button").submit(function(event){
+    $("#ratebutton").submit(function(event){
 
      event.preventDefault();
 
-
-      $.post("/rateLevel", {levelname: levelname})
+      console.log(levelname);
+      $.post("/rateLevel", {levelname: levelname})  //
         .done(function(data){
         document.getElementById("thanks").innerHTML=data;
-        $('#button').hide();
+        $('#ratebutton').hide();
         });
     });
+
     $.get("/getLevellisting", printLevellisting);
 
     function printLevellisting(dblevels){
@@ -89,7 +92,6 @@
 
       output+="</ul>";
       document.getElementById("levellist").innerHTML=output;
-
 
     }
 

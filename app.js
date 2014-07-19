@@ -87,7 +87,7 @@ app.get('/getLevel', function(req, res){
    Level.find({/*levelname: "Third", rating: 2*//*Math.floor((Math.random() * 4) + 1)*/}, function(err, dblevels){ //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten
         
         //dblevel = dblevels[Math.floor((Math.random() * 4) + 0)];  //workaround for random level
-        dblevel = dblevels[0];
+        dblevel = dblevels[0]; //shitfix
 
 
      if(dblevel.leveldata.levelbg == "undefined" || dblevel.leveldata.level_tr_bg == "undefined"){ //if it is a level created by the editor load the default background
@@ -228,6 +228,8 @@ app.post('/rateLevel', function(req, res){
 
     if(Rating == null){ //if not rated yet, he is allowed to
 
+      console.log(req.body.levelname);
+
       Level.findOne({levelname: req.body.levelname}, function(err, dblevel){ //get cookieID from client, check the name for that ID
 
           dblevel.rating++;  //update Rating value +1
@@ -237,9 +239,7 @@ app.post('/rateLevel', function(req, res){
       })
     createDoc(); 
     }
-
   });
-
  function createDoc(){ 
   new Rating({
 
@@ -316,9 +316,9 @@ app.post('/saveLevel', function(req, res){
 
     }).save(function(err, docs){
       if(err) res.json(err);
-     //  res.send('<a href="/">Done! Wanna play it?</a>');  // am besten link zur home mit dem level funzt ed
+       res.send('<form action="/leveleditor" id="refreshlist" method="GET"><button>Refresh your List!</button></form>');  // am besten link zur home mit dem level funzt ed 
     });
-    Level.findOne({levelname: req.body.levelname}, function(err, dblevel){
+    /*Level.findOne({levelname: req.body.levelname}, function(err, dblevel){
 
       console.log(dblevel);
       if(dblevel != null){
@@ -326,7 +326,7 @@ app.post('/saveLevel', function(req, res){
       res.send('<a href="/play'+ dblevel._id + '">Done! Wanna play it?</a>'); 
       }
       else{ res.send("still processing")}
-    });  
+    });  */
   });
 
 
@@ -348,7 +348,6 @@ app.get('/', function(req, res){
           //res.send({dblevel: dblevel});
           res.render('index', {
           title: 'Lode Runner Reloaded', playername: players.name});
-
       });
     });
   }
