@@ -27,6 +27,7 @@
 
 
       var cookie = document.cookie;
+      var level_select = false;
  
       if(cookie == ""){
       $("#showname").hide();  
@@ -34,9 +35,6 @@
       if(document.cookie != ""){      //when cookie is set hide form 
       $('#userform').hide();
       }
-     $(document).ready(function(){
-      $("#userform").validate();
-    }); 
 
       function printScore(highscores){
     
@@ -79,20 +77,50 @@
         });
     });
 
+    var play_level = null;
+
     $.get("/getLevellisting", printLevellisting);
 
     function printLevellisting(dblevels){
 
-      var output="<h4>Choose a Level </h4><ul>";
+      play_level = dblevels;
+      level_select = false;
+
+      var output="<h4>Choose a Level </h4><ul id='test'>";
 
       for (var i in dblevels.dblevels) {
-          output+="<li> Level: <b>" + dblevels.dblevels[i].levelname + "</b> Likes: <b>" + dblevels.dblevels[i].rating +"</b></li>";
+          output+="<li><a onclick='playThisLevel("+ i + ")'> <b>" + dblevels.dblevels[i].levelname + "</b> </a>Likes: <b>" + dblevels.dblevels[i].rating +"</b></li>";
       }
 
       output+="</ul>";
       document.getElementById("levellist").innerHTML=output;
 
+
+
     }
+
+
+    function playThisLevel(i){
+
+       // alert(play_level.dblevels[i].levelname);
+
+       level_select = true; 
+
+        map = play_level.dblevels[i].leveldata.levelmap; 
+        map_bg = play_level.dblevels[i].leveldata.levelbg; 
+        map_transparent_bg = play_level.dblevels[i].leveldata.level_tr_bg; 
+
+
+        levelname = play_level.dblevels[i].levelname;
+        rating = play_level.dblevels[i].rating;
+        createdBy = play_level.dblevels[i].createdBy;
+        document.getElementById("leveldescription").innerHTML="Level: " + levelname + " created by: " + createdBy + " Likes: " + rating;
+
+        $.post("/getHighscore", {levelname: levelname}, printScore);
+
+        Crafty.scene('Loading');
+    }
+
 
     </script>
     

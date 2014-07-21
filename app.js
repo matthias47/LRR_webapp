@@ -89,7 +89,7 @@ app.get('/getLevel', function(req, res){
         //dblevel = dblevels[Math.floor((Math.random() * 4) + 0)];  //workaround for random level
         dblevel = dblevels[0]; //shitfix
 
-
+      // levelbackground will already be saved by levelcreatingprocess. so right now no use for this 
      if(dblevel.leveldata.levelbg == "undefined" || dblevel.leveldata.level_tr_bg == "undefined"){ //if it is a level created by the editor load the default background
 
           dblevel.leveldata.levelbg = levelEngine.getBackground();   
@@ -283,7 +283,7 @@ app.post('/setPlayer', function(req, res){
 
   if(req.body.name == ""){
 
-    req.body.name = "unknown";
+    req.body.name = "unknown"; // in case somebody submited an empty form
   }
 
   new Player({    //save cookieID and playername
@@ -311,8 +311,8 @@ app.post('/saveLevel', function(req, res){
       rating: 0,
       leveldata: {
           levelmap: req.body.leveldata,
-          levelbg: "undefined",
-          level_tr_bg: "undefined",
+          levelbg: levelEngine.getBackground(),
+          level_tr_bg: levelEngine.getTransparent(),
       },
       bestrun: {
         player: "---",
@@ -323,18 +323,18 @@ app.post('/saveLevel', function(req, res){
       if(err) res.json(err);
        res.send('<form action="/leveleditor" id="refreshlist" method="GET"><button>Refresh your List!</button></form>');  // am besten link zur home mit dem level funzt ed 
     });
-    /*Level.findOne({levelname: req.body.levelname}, function(err, dblevel){
-
-      console.log(dblevel);
-      if(dblevel != null){
-
-      res.send('<a href="/play'+ dblevel._id + '">Done! Wanna play it?</a>'); 
-      }
-      else{ res.send("still processing")}
-    });  */
   });
 
 
+});
+
+app.post('/deleteLevel', function(req, res){
+
+  Level.findOne({levelname: req.body.levelname}).remove().exec(function(){
+
+    res.send("Level deleted");
+
+    });
 });
 //---------------------------------------------------------------------------------------
 

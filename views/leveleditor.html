@@ -68,18 +68,35 @@
 
     for (var i in level_edit.dblevels) {
         
-  		output+="<li> Level: <b> <a href='/play" + level_edit.dblevels[i]._id + "'" + level_edit.dblevels[i].levelname + ">" + level_edit.dblevels[i].levelname +"</a></b> Likes: <b>" + level_edit.dblevels[i].rating +"</b> <a id='load' onclick='editLevel()'> Edit </a></li>";
-
-  		function editLevel(){
-
-		alert(level_edit.dblevels[i].levelname);
-
-		console.log(level_edit.dblevels[i].levelname);
-		
-		} 
+  		output+="<li><b> <a href='/play" + level_edit.dblevels[i]._id + "'" + level_edit.dblevels[i].levelname + ">" + level_edit.dblevels[i].levelname +"</a></b> Likes: <b>" + level_edit.dblevels[i].rating +"</b> <a onclick='editLevel("+ i + ")'> Edit </a> <a onclick='deleteLevel("+ i +")'> Delete </a></li>";
 
 	}
 
+  		function editLevel(i){
+
+		alert(level_edit.dblevels[i].levelname);
+		console.log(map_comp = level_edit.dblevels[i].leveldata.levelmap);
+
+		map_comp = level_edit.dblevels[i].leveldata.levelmap
+		
+		}
+
+		function deleteLevel(i){
+
+			console.log(level_edit.dblevels[i].levelname);
+
+			$.post("/deleteLevel", {levelname: level_edit.dblevels[i].levelname}, updateList);
+		}
+		function updateList(){
+
+		for (var i in level_edit.dblevels) {  //notsure
+        
+  		output+="<li><b> <a href='/play" + level_edit.dblevels[i]._id + "'" + level_edit.dblevels[i].levelname + ">" + level_edit.dblevels[i].levelname +"</a></b> Likes: <b>" + level_edit.dblevels[i].rating +"</b> <a onclick='editLevel("+ i + ")'> Edit </a> <a onclick='deleteLevel("+ i +")'> Delete </a></li>";
+
+			}
+
+		} 
+ 
 
     output+="</ol>";
  

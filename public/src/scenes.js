@@ -84,7 +84,7 @@ function levelLoaded (dblevel) {
    // document.getElementById("createdBy").innerHTML="created by: " + createdBy;
     $.post("/getHighscore", {levelname: levelname}, printScore);
 
-    Crafty.e('2D, DOM, Text')
+ /*   Crafty.e('2D, DOM, Text')
     .text("Press Key To Start!")
     .attr({ x: 0, y: Game.height()/2 - 24, w: Game.width() })
     .css({ "text-align": "center"})
@@ -92,9 +92,8 @@ function levelLoaded (dblevel) {
     .textColor("#FFFFFF");
     
     this.start_game = function() {Crafty.scene('Game');}; //verbessurung
-    this.bind('KeyDown', this.start_game);
+    this.bind('KeyDown', this.start_game); */
 }
-//levelLoaded();
 
 
 $(document).keypress(function(e){  //restart level 
@@ -469,34 +468,48 @@ this.unbind('KeyDown', this.restart_game);
 //-----------------------------------------------------------------------------------------------------
 Crafty.scene('Loading', function(){
 
-  var pathname = window.location.pathname;
+  var pathname = window.location.pathname;  //url for specific level  
   
- 
 
-  if(pathname == "/"){
+  if(level_select == false){
+    
+    if(pathname == "/"){
 
-    $.ajax({        //ajax request for leveldata
-      dataType: "json",
-      url: "/getLevel",
-      data: "dblevel",
-      success: levelLoaded,
-      context: this
-    });   
-  } 
- else{
+      $.ajax({        //ajax request for leveldata
+        dataType: "json",
+        url: "/getLevel",
+        data: "dblevel",
+        success: levelLoaded,
+        context: this
+      });   
+    }  
+   
+   if(pathname != "/"){  //pfusch
 
-    $.ajax({        //ajax request for leveldata
-      type: "POST",
-      dataType: "json",
-      url: "/getSpecificLevel",
-      data:
-            {
-              levelID: pathname
-            },
-      success: levelLoaded,
-      context: this
-    });  
-  } 
+      $.ajax({        //ajax request for leveldata
+        type: "POST",
+        dataType: "json",
+        url: "/getSpecificLevel",
+        data:
+              {
+                levelID: pathname
+              },
+        success: levelLoaded,
+        context: this
+      });  
+    } 
+  }
+
+    Crafty.e('2D, DOM, Text')
+    .text("Press Key To Start!")
+    .attr({ x: 0, y: Game.height()/2 - 24, w: Game.width() })
+    .css({ "text-align": "center"})
+    .textFont({ size: '15px', weight: 'bold' })
+    .textColor("#FFFFFF");
+    
+    this.start_game = function() {Crafty.scene('Game');}; //verbessurung
+    this.bind('KeyDown', this.start_game);
+
 
   Crafty.load(['assets/Stein_oK_72ppi.png', 'assets/Ladder.png', 'assets/Schatz_24x19_72ppi.png', 'assets/Pole.png', 'assets/playersprite.png', 
       'assets/enemysprite.png',  'assets/bg.png', 'assets/steine.png' ], function(){
