@@ -9,45 +9,46 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="css/meinCss.css" rel="stylesheet">
-  
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
 
   </head>
 
   <body>
 
-
-        <!-- Titel -->
-    <div class="centered">    
-      <img src="assets/Logo123-01-01.png"/> 
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Lode Runner Reloaded</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/leveleditor">Editor</a></li>
+              <li><a href="/highscore">Best Times</a></li>
+              <li><a href="/levelranking">Level Ranking</a></li>
+              <li><a href="/about">About</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
     </div>
-      <!-- Navigation bar -->
-        <table class="navbar">
-            <tr>
-                <td><a href= "/">Game</a></td>    
-                <td><a href = "/leveleditor">Editor</a></td>
-                <td><a href = "/highscore">Best Times</a></td>
-                <td><a href = "/levelranking">Level Ranking</a></td>
-                <td><a href = "about">About</a></td>
-                <td class="fill"></td>
-            </tr>
-        </table>
 
     <div class="container">
 
     	{{{body}}}
 
     </div> <!-- /container -->
-
-
-    <table class="impressum">
-            <tr>
-        <td class="fill"></td>
-                <td><a href= "/">Contact</a></td>    
-            </tr>
-    </table>
-
-
 
 
   </body>
