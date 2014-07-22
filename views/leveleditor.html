@@ -7,14 +7,11 @@
 	<script src="src/components_editor.js"></script>
 	<script src="src/scenes_editor.js"></script>
 
-	<div id="cr-stage"></div>
-	<script>
-	window.addEventListener('load', Game.start);
-	</script>
+
   
 
 
-	<form name="input" action="/saveLevel" id="levelform" method="POST"> 
+	<form name="input" action="/saveLevel" id="levelform" method="POST" class='levels'> 
     Levelname<input type="text" name="name" id="name">
     <button>Save it!</button>         
     </form>
@@ -54,23 +51,6 @@
 		            updateList();	           }
 	         });
 	    });
-/* 	
-	   	$.ajax({
-	      async: false,
-	      type: "GET",
-	      url: "/getCreatedLevel",
-	      dataType: "json",
-	      success : function(dblevels) { level_edit = dblevels;  }
-		});
- 
-	var output="<h4>Your Level </h4><ul>";
-
-    for (var i in level_edit.dblevels) {
-        
-  		output+="<li><b> <a href='/play" + level_edit.dblevels[i]._id + "'" + level_edit.dblevels[i].levelname + ">" + level_edit.dblevels[i].levelname +"</a></b> Likes: <b>" + level_edit.dblevels[i].rating +"</b> <a onclick='editLevel("+ i + ")'> Edit </a> <a onclick='deleteLevel("+ i +")'> Delete </a></li>";
-
-	}	
-	output+="</ol>"; */
 
 	function updateList(){
 
@@ -82,11 +62,11 @@
       success : function(dblevels) { level_edit = dblevels;  }
 	});
 
-	var output="<h4>Your Level </h4><ul>";
+	var output="<h4 class='levels'>Your Level </h4><ul>";
 
     for (var i in level_edit.dblevels) {
         
-  		output+="<li><b> <a href='/play" + level_edit.dblevels[i]._id + "'" + level_edit.dblevels[i].levelname + ">" + level_edit.dblevels[i].levelname +"</a></b> Likes: <b>" + level_edit.dblevels[i].rating +"</b> <a onclick='editLevel("+ i + ")'> Edit </a> <a onclick='deleteLevel("+ i +")'> Delete </a></li>";
+  		output+="<li class='levels'><b> <a href='/play" + level_edit.dblevels[i]._id + "'" + level_edit.dblevels[i].levelname + ">" + level_edit.dblevels[i].levelname +"</a></b> Likes: <b>" + level_edit.dblevels[i].rating +"</b> <a onclick='editLevel("+ i + ")'> Edit </a> <a onclick='deleteLevel("+ i +")'> Delete </a></li>";
 
 	}	
 	output+="</ol>";
@@ -108,4 +88,9 @@
 		$.post("/deleteLevel", {levelname: level_edit.dblevels[i].levelname}, updateList);
 		updateList();
 	}
-    </script> 
+    </script> 	
+
+    <div id="cr-stage"></div>
+	<script>
+	window.addEventListener('load', Game.start);
+	</script>

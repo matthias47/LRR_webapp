@@ -10,22 +10,7 @@
     <script src="src/movement.js"></script>
     <script src="src/blockdetection.js"></script>
 
-
-
-    <div id="cr-stage"></div>
-    <script> window.addEventListener('load', Game.start);</script>
-
-    <form action="/rateLevel" id="ratebutton" method="POST">
-    <button>Like this Level!</button></form>
-    
-    <form name="input" action="/setplayer" id="userform" method="POST">
-    Set your name: <input name="name" type="text" class="required" title="Please type in your name"><button type="button">HIT!</button></form>
-    
-    <p id="thanks"></p> 
-    <h4 id="showname"> Player: {{playername}} </h4>
-
     <script>
-
 
       var cookie = document.cookie;
       var level_select = false;
@@ -39,16 +24,15 @@
 
       function printScore(highscores){
     
-      var output="<h4>Best Times </h4><ol>";
+      var output="<h4 class='levels'>Best Times </h4><ol class='levels'>";
       for (var i in highscores.highscores) {
           output+="<li> Player:<b>" + highscores.highscores[i].playerID + "</b> Best Time:<b>" + highscores.highscores[i].time +"</b></li>";
       }
 
       output+="</ol>";
-      document.getElementById("bestlist").innerHTML=output;
-      //document.getElementById("levelname").innerHTML="<b>Level: </b>" + highscores.highscores[i].levelname; //heading levelname is the same in every index
-    
+     // document.getElementById("bestlist").innerHTML=output;    
     }
+
     $("#userform").submit(function(event) {
 
      event.preventDefault();
@@ -60,7 +44,7 @@
              success: function(name)
              {
                 $('#userform').hide();
-                document.getElementById("playername").innerHTML="<b>Player: </b>" + name.name;
+                //document.getElementById("playername").innerHTML="<b class='levels'>Player: </b>" + name.name;
              }
            });    
       //return false; // avoid to execute the actual submit.
@@ -87,7 +71,7 @@
       play_level = dblevels; 
       //level_select = false;
 
-      var output="<h4>Choose a Level </h4><ul id='test'>";
+      var output="<h4 class='levels'>Choose a Level </h4><ul id='test' class='levels'>";
 
       for (var i in dblevels.dblevels) {
           output+="<li><a onclick='playThisLevel("+ i + ")'> <b>" + dblevels.dblevels[i].levelname + "</b> </a>Likes: <b>" + dblevels.dblevels[i].rating +"</b></li>";
@@ -122,14 +106,29 @@
         Crafty.scene('Loading');
     }
 
-
     </script>
-    
 
     <h4 id="leveldescription"></h4>
     <h4 id="playername"></h4>
-    <div id="bestlist"></div>    
+    <div id="bestlist"></div>
+
     <div id="levellist"></div>
+
+    <form action="/rateLevel" id="ratebutton" method="POST" class='levels'>
+    <button>Like this Level!</button></form>
+    
+    <form name="input" action="/setplayer" id="userform" method="POST" class='levels'>
+    Set your name: <input name="name" type="text" class="required" title="Please type in your name"><button type="button">HIT!</button></form>
+
+    <p id="thanks" class='levels'></p> 
+    <h4 id="showname" class='levels'> Player: {{playername}} </h4>
+
+    <div id="cr-stage"></div>
+    <script> window.addEventListener('load', Game.start);</script>
+
+
+
+
 
   
       
