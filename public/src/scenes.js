@@ -471,8 +471,8 @@ Crafty.scene('Loading', function(){
   var pathname = window.location.pathname;  //url for specific level  
   
 
-  if(level_select == false){
-    
+  if(level_select == false){ // if level got selected from levellist do not load another random level
+
     if(pathname == "/"){
 
       $.ajax({        //ajax request for leveldata

@@ -20,7 +20,8 @@
     
     <form name="input" action="/setplayer" id="userform" method="POST">
     Set your name: <input name="name" type="text" class="required" title="Please type in your name"><button type="button">HIT!</button></form>
-
+    
+    <p id="thanks"></p> 
     <h4 id="showname"> Player: {{playername}} </h4>
 
     <script>
@@ -77,14 +78,14 @@
         });
     });
 
-    var play_level = null;
+    var play_level = null; //global variable to access leveldata outside of functions
 
     $.get("/getLevellisting", printLevellisting);
 
     function printLevellisting(dblevels){
 
-      play_level = dblevels;
-      level_select = false;
+      play_level = dblevels; 
+      //level_select = false;
 
       var output="<h4>Choose a Level </h4><ul id='test'>";
 
@@ -124,7 +125,7 @@
 
     </script>
     
-    <p id="thanks"></p> 
+
     <h4 id="leveldescription"></h4>
     <h4 id="playername"></h4>
     <div id="bestlist"></div>    
