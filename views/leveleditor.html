@@ -7,12 +7,18 @@
 	<script src="src/components_editor.js"></script>
 	<script src="src/scenes_editor.js"></script>
 
-	<div id="cr-stage"></div>
+	
+	<div id="cr-stage" style="float:left; margin-bottom: 30px">
 	<script>
 	window.addEventListener('load', Game.start);
 	</script>
-  
+	</div>
+	<div id="image" style="float:right; padding-right: 50px">
+     <img src="assets/toolbar_editor_scaled.jpg" alt="editor" width="340px" height="400px" >
+	</div>
 
+
+	<p></p>
 
 	<form name="input" action="/saveLevel" id="levelform" method="POST"> 
     Levelname<input type="text" name="name" id="name">
@@ -21,6 +27,7 @@
     
     <div id="response"></div>
    	<div id="createdLevelList"></div>
+  
 
 	<script>
 

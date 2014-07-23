@@ -36,6 +36,21 @@ Crafty.c('Stone', {
     id: "W"
 });
 
+Crafty.c('Cursor', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_cursor');
+    },
+    id: "C"
+});
+
+Crafty.c('SolidStone', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_solidstone');
+    },
+    id: "S"
+});
+
+
 Crafty.c('Ladder', {
     init: function() {
         this.requires('Actor, Multiway, Collision, spr_ladder');
@@ -57,4 +72,30 @@ Crafty.c('Pole', {
     id: "-"
 });
 
+Crafty.c('PlayerCharacter', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_player');
+    },
+    id: "P"
+});
+
+Crafty.c('Enemy', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_enemy');
+    },
+    id: "E"
+});
+
+Crafty.c('Final_Ladder', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_final');
+    },
+    id: "h"
+});
+Crafty.c('Ausgang', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_ausgang');
+    },
+    id: "X"
+});
 

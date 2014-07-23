@@ -1,4 +1,3 @@
-
 var map_comp = [
     '................................',
     '................................',
@@ -22,30 +21,42 @@ var map_comp = [
     '................................',
     '................................',
     '................................',
-    '.', // nicht entfernen!
-    '.'   // nicht entfernen!   
+    '', // nicht entfernen!
+    ''   // nicht entfernen!   
 ];
 
-//var map_comp = new Array();
+var map_entity = new Array;
 
-var currentTile;
+for(i = 0; i<24; i++)
+{
+    map_entity[i] = new Array();
+}
+
+//map_entity = map_comp;
+
+
 
 var moving = ('KeyDown', function(e) {
-        if (e.key == Crafty.keys.LEFT_ARROW) {
-            this.x = this.x - 24;
-        }
-        else if (e.key == Crafty.keys.RIGHT_ARROW) {
-            this.x = this.x + 24;
-        }
-        else if (e.key == Crafty.keys.UP_ARROW) {
-            this.y = this.y - 24;
-        }
-        else if (e.key == Crafty.keys.DOWN_ARROW) {
-            this.y = this.y + 24;
-        }
-    });
+    if (e.key == Crafty.keys.LEFT_ARROW) {
+        this.x = this.x - 24;
+    }
+    else if (e.key == Crafty.keys.RIGHT_ARROW) {
+        this.x = this.x + 24;
+    }
+    else if (e.key == Crafty.keys.UP_ARROW) {
+        this.y = this.y - 24;
+    }
+    else if (e.key == Crafty.keys.DOWN_ARROW) {
+        this.y = this.y + 24;
+    }
+});
 
 Crafty.scene('Editor', function() {
+
+    var currentTile;
+    var currentEntity;
+    var y;
+    var x;
 
     $(document).keypress(function(e) {
         if (e.which == 49 || e.which == 97) {
@@ -57,7 +68,7 @@ Crafty.scene('Editor', function() {
             currentTile = Crafty.e('Stone').at(10, 10);
 
             currentTile.bind('KeyDown', moving);
-           
+
         }
         else if (e.which == 50 || e.which == 98) {
             if (currentTile != undefined)
@@ -65,9 +76,10 @@ Crafty.scene('Editor', function() {
                 currentTile.destroy();
             }
 
-            currentTile = Crafty.e('Ladder').at(10, 10);
-            
+            currentTile = Crafty.e('SolidStone').at(10, 10);
+
             currentTile.bind('KeyDown', moving);
+
         }
         else if (e.which == 51 || e.which == 99) {
             if (currentTile != undefined)
@@ -75,8 +87,8 @@ Crafty.scene('Editor', function() {
                 currentTile.destroy();
             }
 
-            currentTile = Crafty.e('Pole').at(10, 10);
-            
+            currentTile = Crafty.e('Ladder').at(10, 10);
+
             currentTile.bind('KeyDown', moving);
         }
         else if (e.which == 52 || e.which == 100) {
@@ -85,53 +97,222 @@ Crafty.scene('Editor', function() {
                 currentTile.destroy();
             }
 
-            currentTile = Crafty.e('Treasure').at(10, 10);
-            
+            currentTile = Crafty.e('Pole').at(10, 10);
+
             currentTile.bind('KeyDown', moving);
         }
-        else if (e.which == 13) {
-            
-            //map_comp[currentTile.y / 24][ currentTile.x / 24] = currentTile.id;
-        
-            currentTile.unbind('KeyDown', moving);
-            console.log(currentTile.x /24);
-            map_comp[currentTile.y /24] = map_comp[currentTile.y /24].substring(1,currentTile.x / 24) + currentTile.id + map_comp[currentTile.y /24].substring(currentTile.x / 24, map_comp[currentTile.y /24].length - 1);
-            
-            for (var y = 0; y < Game.map_grid.height; y++) {
-                           
-                for (var x = 0; x < Game.map_grid.width; x++) {
-                    
-                    
+        else if (e.which == 53 || e.which == 101) {
+            if (currentTile != undefined)
+            {
+                currentTile.destroy();
+            }
 
-                    console.log('in for' + ' ' + map_comp);
+            currentTile = Crafty.e('Treasure').at(10, 10);
+
+            currentTile.bind('KeyDown', moving);
+        }
+        else if (e.which == 54 || e.which == 102) {
+            if (currentTile != undefined)
+            {
+                currentTile.destroy();
+            }
+
+            currentTile = Crafty.e('PlayerCharacter').at(10, 10);
+
+            currentTile.bind('KeyDown', moving);
+        }
+        else if (e.which == 55 || e.which == 103) {
+            if (currentTile != undefined)
+            {
+                currentTile.destroy();
+            }
+
+            currentTile = Crafty.e('Enemy').at(10, 10);
+
+            currentTile.bind('KeyDown', moving);
+
+        }
+        else if (e.which == 56 || e.which == 104) {
+            if (currentTile != undefined)
+            {
+                currentTile.destroy();
+            }
+
+            currentTile = Crafty.e('Final_Ladder').at(10, 10);
+
+            currentTile.bind('KeyDown', moving);
+
+        }
+        else if (e.which == 57 || e.which == 105) {
+            if (currentTile != undefined)
+            {
+                currentTile.destroy();
+            }
+
+            currentTile = Crafty.e('Ausgang').at(10, 10);
+
+            currentTile.bind('KeyDown', moving);
+
+        }
+        else if (e.which == 48 || e.which == 96) {
+            if (currentTile != undefined)
+            {
+                currentTile.destroy();
+
+            }
+            currentTile = Crafty.e('Cursor').at(10, 10);
+
+            currentTile.bind('KeyDown', moving);
+
+        }
+
+        else if (e.which == 13) {
+
+            
+            map_comp[currentTile.y / 24][ currentTile.x / 24] = currentTile.id;
+           
+
+            currentTile.unbind('KeyDown', moving);
+
+
+            map_comp[currentTile.y / 24] = map_comp[currentTile.y / 24].substring(0, currentTile.x / 24) + currentTile.id + map_comp[currentTile.y / 24].substring((currentTile.x / 24) + 1, map_comp[currentTile.y / 24].length);
+
+            for (var y = 0; y < Game.map_grid.height; y++) {
+
+                for (var x = 0; x < Game.map_grid.width; x++) {
 
                     if (map_comp[y][x] == 'W') {
-                        Crafty.e('Stone').at(x + 1, y);
+                        /*  if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                        if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
                         }
-                    if (map_comp[y][x] == 'C') {
-                        //Crafty.e('Concrete').at(x+1, y+1);					
+                        currentEntity = Crafty.e('Stone').at(x, y);
+                        map_entity[y][x] = currentEntity;
                     }
+                    if (map_comp[y][x] == 'S' && map_comp[y][x] != 'S' ) {
+                        /* if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                         if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        currentEntity = Crafty.e('SolidStone').at(x, y);
+                        map_entity[y][x] = currentEntity;
+                    }
+
                     if (map_comp[y][x] == 'H') {
-                        Crafty.e('Ladder').at(x + 1, y);
-                        
+                        /*if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                        if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        currentEntity = Crafty.e('Ladder').at(x, y);
+                        map_entity[y][x] = currentEntity;
+
                     }
                     if (map_comp[y][x] == '-') {
-                        Crafty.e('Pole').at(x + 1, y);
-                       
+                        /*if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                       if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        currentEntity = Crafty.e('Pole').at(x, y);
+                        map_entity[y][x] = currentEntity;
+
                     }
                     if (map_comp[y][x] == 'T') {
-                        Crafty.e('Treasure').at(x + 1, y);
-                        
+                        /*if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                        if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        currentEntity = Crafty.e('Treasure').at(x, y);
+                        map_entity[y][x] = currentEntity;
+
                     }
                     if (map_comp[y][x] == 'P') {
-                        //Crafty.e('PlayerCharacter').at(x+1, y+1);  
+                        /*if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                        if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        currentEntity = Crafty.e('PlayerCharacter').at(x, y);
+                        map_entity[y][x] = currentEntity;
                     }
                     if (map_comp[y][x] == 'E') {
-                        //Crafty.e('Enemy').at(x+1, y+1);   
+                        /*if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                        if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        currentEntity = Crafty.e('Enemy').at(x, y);
+                        map_entity[y][x] = currentEntity;
                     }
+                    
+                    if (map_comp[y][x] == 'h') {
+                        /*if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                        if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        currentEntity = Crafty.e('Final_Ladder').at(x, y);
+                        map_entity[y][x] = currentEntity;
+                    }
+                    
+                    if (map_comp[y][x] == 'X') {
+                        /*if (currentEntity != undefined)
+                         {
+                         currentEntity.destroy();
+                         }*/
+                        if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        currentEntity = Crafty.e('Ausgang').at(x, y);
+                        map_entity[y][x] = currentEntity;
+                    }
+
+                    if (map_comp[y][x] == 'C') {
+                        /*if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
+                        }*/
+                        if (map_entity[y][x]) {
+                            console.log("isch bin drin");
+                            map_entity[y][x].destroy();
+                        }
+                        map_entity[y][x] = currentEntity;
+                        
+
+                    }
+
                 }
             }
-        }
+        } console.log(map_comp);
     });
 });
 
@@ -140,34 +321,58 @@ Crafty.scene('Editor', function() {
 // Handles the loading of binary assets such as images and audio files
 Crafty.scene('Loading', function() {
 
-
     // Load our sprite map image
-    Crafty.load(['assets/assets-yellow.png', 'assets/Gitter-03.png'], function() {
+    Crafty.load(['assets/assets-yellow.png', 'assets/Gitter-03.png', 'assets/cursor.png', 'assets/ausgang.png'], function() {
 
         Crafty.sprite(24, 'assets/assets-yellow.png', {
             spr_treasure: [0, 0],
-            spr_stone: [1, 0],
             spr_ladder: [0, 1],
-            spr_pole: [1, 1]
+            spr_pole: [1, 1],
+            spr_final: [0, 2]
+        });
+
+        Crafty.sprite(24, 'assets/steine.png', {
+            spr_stone: [0, 0],
+            spr_solidstone: [0, 9]
+        });
+
+        Crafty.sprite(24, 'assets/enemysprite.png', {
+            spr_enemy: [0, 0],
+        });
+
+        Crafty.sprite(24, 'assets/playersprite.png', {
+            spr_player: [0, 0],
+        });
+
+        Crafty.sprite(24, 'assets/cursor.png', {
+            spr_cursor: [0, 0],
+        });
+        
+        Crafty.sprite(24, 'assets/ausgang.png', {
+            spr_ausgang: [0, 0],
         });
 
         Crafty.background('url(assets/Gitter-03.png)');
 
-        Crafty.e('2D, DOM, Text')
-                .text("Press Key To Start!")
-                .attr({x: 0, y: Game.height() / 2 - 24, w: Game.width()})
-                .css({"text-align": "center"})
-                .textFont({size: '15px', weight: 'bold'})
-                .textColor("#FFFFFF");
+        var tutorial = Crafty.e('2D, DOM, Text, Image')
+                .image("assets/Tutorial_scaled.png");
+        tutorial.y = 1;
+        tutorial.x = 1;
     });
 
-    this.start_game = function() {
+ /*  this.start_game = function() {
         Crafty.scene('Editor');
     }; //verbessurung
-    this.bind('KeyDown', this.start_game);
-},
-        function() {
-            this.unbind('KeyDown', this.start_game);
+    this.bind('KeyDown', this.start_game); */
+});
+
+ $(document).keypress(function(e) {
+
+
+        if (e.which == 32) {
+
+            Crafty.scene('Editor');            
         }
 
-);
+    });
+
