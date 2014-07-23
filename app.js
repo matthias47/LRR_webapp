@@ -86,7 +86,7 @@ app.get('/getLevel', function(req, res){
 
    Level.find({/*levelname: "Third", rating: 2*//*Math.floor((Math.random() * 4) + 1)*/}, function(err, dblevels){ //bei datenbankabfrage ein zufallszahl, die der ÌD entspricht verwenden, um bei neuladen zufälliges level zuerhalten
         
-        dblevel = dblevels[Math.floor((Math.random() * 2) + 0)];  //workaround for random level
+        dblevel = dblevels[Math.floor((Math.random() * 1) + 0)];  //workaround for random level
         //dblevel = dblevels[0]; //shitfix
 
       // levelbackground will already be saved by levelcreatingprocess. so right now no use for this 

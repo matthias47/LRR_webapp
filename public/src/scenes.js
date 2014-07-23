@@ -69,6 +69,27 @@ dbbgtp_save = dblevel.dblevel.leveldata.level_tr_bg;
     Crafty.scene('Gameover');
   }
 })  */
+
+    function playThisLevel(i){
+
+       // alert(play_level.dblevels[i].levelname);
+
+       level_select = true; 
+
+        dblevel_save = play_level.dblevels[i].leveldata.levelmap; 
+        dbbg_save = play_level.dblevels[i].leveldata.levelbg; 
+        dbbgtp_save= play_level.dblevels[i].leveldata.level_tr_bg; 
+
+
+        levelname = play_level.dblevels[i].levelname;
+        rating = play_level.dblevels[i].rating;
+        createdBy = play_level.dblevels[i].createdBy;
+        document.getElementById("leveldescription").innerHTML="Level: " + levelname + " created by: " + createdBy + " Likes: " + rating;
+
+        $.post("/getHighscore", {levelname: levelname}, printScore);
+
+        Crafty.scene('Loading');
+    }
 //----------------------------------------------------------------
 Crafty.scene('Game', function() {
 
