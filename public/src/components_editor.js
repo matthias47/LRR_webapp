@@ -43,13 +43,13 @@ Crafty.c('Cursor', {
     id: "C"
 });
 
+
 Crafty.c('SolidStone', {
     init: function() {
         this.requires('Actor, Multiway, Collision, spr_solidstone');
     },
     id: "S"
 });
-
 
 Crafty.c('Ladder', {
     init: function() {
@@ -71,7 +71,6 @@ Crafty.c('Pole', {
     },
     id: "-"
 });
-
 Crafty.c('PlayerCharacter', {
     init: function() {
         this.requires('Actor, Multiway, Collision, spr_player');
@@ -98,4 +97,5 @@ Crafty.c('Ausgang', {
     },
     id: "X"
 });
+
 

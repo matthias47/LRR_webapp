@@ -563,7 +563,10 @@ Crafty.scene('Loading', function(){
         }
         if (e.which == 32) {
             start_gameRestart();
+            e.preventDefault();
+            window.addEventListener('keydown',dSpace,true);
         }
+        void 0;
 
     });
 

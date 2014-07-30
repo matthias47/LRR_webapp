@@ -66,18 +66,18 @@ Crafty.scene('Editor', function() {
             }
 
             currentTile = Crafty.e('Stone').at(10, 10);
-
+       
             currentTile.bind('KeyDown', moving);
 
         }
         else if (e.which == 50 || e.which == 98) {
-            if (currentTile != undefined)
+             if (currentTile != undefined)
             {
                 currentTile.destroy();
             }
 
             currentTile = Crafty.e('SolidStone').at(10, 10);
-
+       
             currentTile.bind('KeyDown', moving);
 
         }
@@ -193,7 +193,7 @@ Crafty.scene('Editor', function() {
                         currentEntity = Crafty.e('Stone').at(x, y);
                         map_entity[y][x] = currentEntity;
                     }
-                    if (map_comp[y][x] == 'S' && map_comp[y][x] != 'S' ) {
+                    if (map_comp[y][x] == 'S') {
                         /* if (currentEntity != undefined)
                          {
                          currentEntity.destroy();
@@ -322,7 +322,7 @@ Crafty.scene('Editor', function() {
 Crafty.scene('Loading', function() {
 
     // Load our sprite map image
-    Crafty.load(['assets/assets-yellow.png', 'assets/Gitter-03.png', 'assets/cursor.png', 'assets/ausgang.png'], function() {
+    Crafty.load(['assets/assets-yellow.png', 'assets/Gitter-03.png', 'assets/cursor.png', 'assets/steine.png'], function() {
 
         Crafty.sprite(24, 'assets/assets-yellow.png', {
             spr_treasure: [0, 0],
@@ -333,7 +333,8 @@ Crafty.scene('Loading', function() {
 
         Crafty.sprite(24, 'assets/steine.png', {
             spr_stone: [0, 0],
-            spr_solidstone: [0, 9]
+            spr_solidstone: [0, 9],
+            spr_ausgang: [1, 9]
         });
 
         Crafty.sprite(24, 'assets/enemysprite.png', {
@@ -348,31 +349,22 @@ Crafty.scene('Loading', function() {
             spr_cursor: [0, 0],
         });
         
-        Crafty.sprite(24, 'assets/ausgang.png', {
-            spr_ausgang: [0, 0],
-        });
 
         Crafty.background('url(assets/Gitter-03.png)');
 
         var tutorial = Crafty.e('2D, DOM, Text, Image')
-                .image("assets/Tutorial_scaled.png");
+                .image("assets/Tutorial.png");
         tutorial.y = 1;
         tutorial.x = 1;
     });
 
- /*  this.start_game = function() {
+    this.start_game = function() {
         Crafty.scene('Editor');
     }; //verbessurung
-    this.bind('KeyDown', this.start_game); */
-});
-
- $(document).keypress(function(e) {
-
-
-        if (e.which == 32) {
-
-            Crafty.scene('Editor');            
+    this.bind('KeyDown', this.start_game);
+},
+        function() {
+            this.unbind('KeyDown', this.start_game);
         }
 
-    });
-
+);
